@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Python Blockchain</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+JP:wght@400;600&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="brand">Python<span>/</span>Blockchain <em>Admin</em></div>
+        <div class="notice" id="notice"></div>
+    </header>
+
+    <main class="grid">
+        <!-- 01 ブロックチェーンサーバー -->
+        <section class="section">
+            <div class="section-head">
+                <span class="section-no">01</span>
+                <h1>Blockchain Node</h1>
+                <span class="badge" id="node_status">-</span>
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-label">Port</div>
+                    <div class="stat-value" id="node_port">5000</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Blocks</div>
+                    <div class="stat-value" id="node_blocks">-</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Pool</div>
+                    <div class="stat-value" id="node_pool">-</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Uptime</div>
+                    <div class="stat-value" id="node_uptime">-</div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn" id="node_toggle">Start</button>
+                <button class="btn btn-accent" id="mine_button">Mine</button>
+                <button class="btn" id="auto_mine_button">Auto Mine</button>
+            </div>
+            <div class="links" id="node_links">
+                <a href="http://localhost:5000/chain" target="_blank" rel="noopener">/chain ↗</a>
+                <a href="http://localhost:5000/transaction" target="_blank" rel="noopener">/transaction ↗</a>
+            </div>
+        </section>
+
+        <!-- 02 ユーザ(ウォレットサーバー) -->
+        <section class="section">
+            <div class="section-head">
+                <span class="section-no">02</span>
+                <h1>Users</h1>
+                <span class="count" id="user_count">0</span>
+            </div>
+
+            <form class="add-form" id="add_form">
+                <input type="text" id="new_name" maxlength="20" placeholder="名前(空欄で自動)">
+                <input type="text" id="new_port" inputmode="numeric" placeholder="ポート(空欄で自動)">
+                <button class="btn btn-accent" type="submit">+ Add User</button>
+            </form>
+
+            <div class="table-wrap">
+                <table class="users">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Port</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="user_rows"></tbody>
+                </table>
+                <p class="empty" id="user_empty">ユーザがいません。「+ Add User」で追加してください。</p>
+            </div>
+        </section>
+
+        <!-- 03 台帳(トランザクションプールとチェーン) -->
+        <section class="section">
+            <div class="section-head">
+                <span class="section-no">03</span>
+                <h1>Ledger</h1>
+            </div>
+            <h2 class="sub-head">Transaction Pool <small>未承認の取引</small></h2>
+            <div id="pool_list" class="tx-list"></div>
+            <h2 class="sub-head">Chain <small>新しい順</small></h2>
+            <div id="chain_list"></div>
+        </section>
+
+        <!-- 04 ログ -->
+        <section class="section">
+            <div class="section-head">
+                <span class="section-no">04</span>
+                <h1>Logs</h1>
+                <select id="log_target"></select>
+            </div>
+            <label class="check">
+                <input type="checkbox" id="show_polling">
+                管理画面の自動更新によるアクセス(GET /chain, /transaction)も表示
+            </label>
+            <pre class="log" id="log_view"></pre>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='admin.js') }}"></script>
+</body>
+
+</html>

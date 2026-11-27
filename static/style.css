@@ -1,0 +1,311 @@
+/* =========================================================
+   Wallet - 台帳/計器風のダークデザイン
+   ========================================================= */
+
+:root {
+    --bg: #0d0d0c;
+    --panel: #141413;
+    --line: #2b2a27;
+    --line-strong: #4a4843;
+    --text: #ebe8e1;
+    --muted: #8a867d;
+    --accent: #ff5b1f;
+    --accent-dark: #d9450f;
+    --mono: "IBM Plex Mono", "Consolas", "Menlo", monospace;
+    --sans: "IBM Plex Sans JP", "Hiragino Sans", "Yu Gothic UI", "Meiryo", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    background: var(--bg);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+    background: var(--accent);
+    color: #000;
+}
+
+/* ===== ヘッダー ===== */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 22px 32px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.brand {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.brand span {
+    color: var(--accent);
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+}
+
+.status::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+}
+
+/* ===== レイアウト ===== */
+.layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    max-width: 1120px;
+    margin: 0 auto;
+    border: 1px solid var(--line);
+    border-top: none;
+}
+
+.section {
+    padding: 36px 32px 40px;
+}
+
+.section+.section {
+    border-left: 1px solid var(--line);
+}
+
+.section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin: 0 0 32px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line-strong);
+}
+
+.section-no {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+}
+
+.section h1 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+/* ===== 残高 ===== */
+.balance {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.balance-label {
+    margin-bottom: 4px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+#wallet_amount {
+    font-family: var(--mono);
+    font-size: 64px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ===== 入力欄 ===== */
+.field {
+    margin-bottom: 26px;
+}
+
+.field:last-child {
+    margin-bottom: 0;
+}
+
+.field label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.field label small {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: none;
+}
+
+textarea,
+input[type="text"] {
+    display: block;
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 0;
+    background: var(--panel);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.55;
+    word-break: break-all;
+    transition: border-color 0.15s;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input[type="text"]::placeholder {
+    color: #57544e;
+}
+
+textarea:hover,
+input[type="text"]:hover {
+    border-color: var(--line-strong);
+}
+
+textarea:focus,
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+/* 金額入力は大きく見せる */
+#send_amount {
+    font-size: 22px;
+    padding: 14px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* 秘密鍵: 左にオレンジの線で注意を促す */
+.field-secret label small {
+    color: var(--accent);
+}
+
+.field-secret textarea {
+    border-left: 3px solid var(--accent);
+}
+
+/* ===== ボタン ===== */
+button {
+    cursor: pointer;
+    border-radius: 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+#reload_wallet {
+    padding: 11px 16px;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--text);
+}
+
+#reload_wallet:hover {
+    border-color: var(--text);
+}
+
+#send_money_button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 36px;
+    padding: 18px 20px;
+    border: none;
+    background: var(--accent);
+    color: #0d0d0c;
+}
+
+#send_money_button::after {
+    content: "\2192";
+    font-size: 16px;
+    transition: transform 0.15s;
+}
+
+#send_money_button:hover {
+    background: var(--accent-dark);
+}
+
+#send_money_button:hover::after {
+    transform: translateX(4px);
+}
+
+/* ===== 画面幅が狭いとき(1列にする) ===== */
+@media (max-width: 860px) {
+    .layout {
+        grid-template-columns: 1fr;
+        border: none;
+    }
+
+    .section+.section {
+        border-left: none;
+        border-top: 1px solid var(--line);
+    }
+}
+
+@media (max-width: 600px) {
+    .topbar {
+        padding: 18px 20px;
+    }
+
+    .section {
+        padding: 28px 20px 32px;
+    }
+
+    #wallet_amount {
+        font-size: 48px;
+    }
+
+    /* 鍵が折り返して切れないよう欄を高くする */
+    #public_key {
+        height: 9em;
+    }
+
+    #private_key {
+        height: 5.5em;
+    }
+}

@@ -5,9 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wallet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+JP:wght@400;600&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
+        // 管理ページから開いたとき(URLに ?name=ユーザA が付いている)はタイトルを「ユーザ名 | Wallet」にする
+        const user_name = new URLSearchParams(location.search).get('name')
+        if (user_name) {
+            document.title = `${user_name} | Wallet`
+        }
+
         $(function () {
+            // どのウォレット(8080/8081など)を開いているか分かるように表示
+            $('#node_host').text(user_name ? `${user_name} / ${location.host}` : location.host)
+
             $.ajax({
                 url: '/wallet',
                 type: 'POST',
@@ -58,27 +72,55 @@
 </head>
 
 <body>
-    <div>
-        <h1>Wallet</h1>
-        <div id="wallet_amount">0</div>
-        <button id="reload_wallet">Reload Wallet</button>
+    <header class="topbar">
+        <div class="brand">Python<span>/</span>Blockchain</div>
+        <div class="status" id="node_host"></div>
+    </header>
 
-        <p>Public Key</p>
-        <textarea name="" id="public_key" rows="2" cols="100"></textarea>
-        <p>Private Key</p>
-        <textarea name="" id="private_key" rows="1" cols="100"></textarea>
-        <p>Blockchain Address</p>
-        <textarea name="" id="blockchain_address" rows="1" cols="100"></textarea>
-    </div>
-    <div>
-        <h1>Send Money</h1>
-        <div>
-            Address: <input type="text" id="recipient_blockchain_address" size="100"><br>
-            Amount: <input type="text" id="send_amount"><br>
+    <main class="layout">
+        <section class="section">
+            <div class="section-head">
+                <span class="section-no">01</span>
+                <h1>Wallet</h1>
+            </div>
+            <div class="balance">
+                <div>
+                    <div class="balance-label">Balance</div>
+                    <div id="wallet_amount">0</div>
+                </div>
+                <button id="reload_wallet">Reload Wallet</button>
+            </div>
+
+            <div class="field">
+                <label for="public_key">Public Key</label>
+                <textarea id="public_key" rows="2"></textarea>
+            </div>
+            <div class="field field-secret">
+                <label for="private_key">Private Key <small>他人に見せないこと</small></label>
+                <textarea id="private_key" rows="1"></textarea>
+            </div>
+            <div class="field">
+                <label for="blockchain_address">Blockchain Address</label>
+                <textarea id="blockchain_address" rows="1"></textarea>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-head">
+                <span class="section-no">02</span>
+                <h1>Send Money</h1>
+            </div>
+            <div class="field">
+                <label for="recipient_blockchain_address">Address <small>送金先</small></label>
+                <input type="text" id="recipient_blockchain_address" placeholder="送金先のアドレスを貼り付け">
+            </div>
+            <div class="field">
+                <label for="send_amount">Amount <small>金額</small></label>
+                <input type="text" id="send_amount" placeholder="0.0">
+            </div>
             <button id="send_money_button">Send</button>
-        </div>
-    </div>
-
+        </section>
+    </main>
 </body>
 
 </html>
